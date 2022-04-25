@@ -92,11 +92,9 @@ public class Movie implements Comparable<Movie> {   //implements Comparable<Movi
         xsw.writeCharacters(creationDate.toString());
         xsw.writeEndElement();
 
-        if (oscarsCount != null) {
-            xsw.writeStartElement("oscarsCount");
-            xsw.writeCharacters(String.valueOf(oscarsCount));
-            xsw.writeEndElement();
-        }
+        xsw.writeStartElement("oscarsCount");
+        xsw.writeCharacters(String.valueOf(oscarsCount));
+        xsw.writeEndElement();
 
         xsw.writeStartElement("goldenPalmCount");
         xsw.writeCharacters(String.valueOf(goldenPalmCount));
@@ -109,6 +107,10 @@ public class Movie implements Comparable<Movie> {   //implements Comparable<Movi
         if (mpaaRating != null) {
             xsw.writeStartElement("mpaaRating");
             xsw.writeCharacters(mpaaRating.name());
+            xsw.writeEndElement();
+        } else {
+            xsw.writeStartElement("mpaaRating");
+            xsw.writeCharacters("");
             xsw.writeEndElement();
         }
 

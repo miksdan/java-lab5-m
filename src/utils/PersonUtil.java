@@ -75,7 +75,7 @@ public class PersonUtil {
                     runnable.run();
                     break;
                 } catch (Exception e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                     System.out.println(e.getClass().getName() + ": " + e.getMessage());
                 }
             }
@@ -95,6 +95,11 @@ public class PersonUtil {
         return answer.equals("Y");
     }
 
+    /**
+     *
+     * @param scan
+     * @return person's name
+     */
     private static String getName(Scanner scan) {
         System.out.println("Enter a person name: ");
         String name = scan.nextLine().trim();
@@ -103,6 +108,11 @@ public class PersonUtil {
         return name;
     }
 
+    /**
+     *
+     * @param scan
+     * @return person's weight
+     */
     private static Integer getWeight(Scanner scan) {
         System.out.println("Enter a person weight: ");
         Integer weight = Integer.valueOf(scan.nextLine().trim());
@@ -111,7 +121,11 @@ public class PersonUtil {
         return weight;
     }
 
-
+    /**
+     *
+     * @param scan
+     * @return person's eye color
+     */
     private static Color getEyeColor(Scanner scan) {
         System.out.println("Enter a person eye color: " + PERSON_COLOR);
         String eyeColorStr = scan.nextLine().trim();
@@ -120,6 +134,11 @@ public class PersonUtil {
         return Color.valueOf(eyeColorStr);
     }
 
+    /**
+     *
+     * @param scan
+     * @return person's hair color
+     */
     private static Color getHairColor(Scanner scan) {
         System.out.println("Enter a person hair color: " + PERSON_COLOR);
         String hairColorStr = scan.nextLine().trim();
@@ -128,6 +147,11 @@ public class PersonUtil {
         return Color.valueOf(hairColorStr);
     }
 
+    /**
+     *
+     * @param scan
+     * @return person's nationality
+     */
     private static Country getNationality(Scanner scan) {
         System.out.println("Enter a person nationality: " + PERSON_COUNTRIES);
         String nationality = scan.nextLine().trim();

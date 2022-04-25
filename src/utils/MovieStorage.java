@@ -73,22 +73,26 @@ public class MovieStorage {
 
     public static void removeGreater(Movie movie) {
         Iterator<Movie> iterator = STORAGE.iterator();
+        List<Movie> moviesToRemove = new ArrayList<>();
         while (iterator.hasNext()) {
             Movie curMovie = iterator.next();
-            if (movie.compareTo(curMovie) > 0) {
-                STORAGE.remove(curMovie);
+            if (movie.compareTo(curMovie) < 0) {
+                moviesToRemove.add(curMovie);
             }
         }
+        moviesToRemove.forEach(STORAGE::remove);
     }
 
     public static void removeLower(Movie movie) {
         Iterator<Movie> iterator = STORAGE.iterator();
+        List<Movie> moviesToRemove = new ArrayList<>();
         while (iterator.hasNext()) {
             Movie curMovie = iterator.next();
-            if (movie.compareTo(curMovie) < 0) {
-                STORAGE.remove(curMovie);
+            if (movie.compareTo(curMovie) > 0) {
+                moviesToRemove.add(curMovie);
             }
         }
+        moviesToRemove.forEach(STORAGE::remove);
     }
 
     public static Movie getMaxCreationDate() {
@@ -124,6 +128,16 @@ public class MovieStorage {
                 movies.add(movie);
             }
         }
+        return movies;
+    }
+
+    public static List<Movie> getStorageAsList() {
+        return new ArrayList<>(STORAGE);
+    }
+
+    public static List<Movie> getSortedListByOscarCount() {
+        List<Movie> movies = getStorageAsList();
+        movies.sort(Movie::compareTo);
         return movies;
     }
 }

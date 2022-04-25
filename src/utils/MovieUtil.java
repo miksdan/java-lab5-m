@@ -1,9 +1,6 @@
 package utils;
 
-import model.Coordinates;
-import model.Movie;
-import model.MpaaRating;
-import model.Person;
+import model.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -70,14 +67,19 @@ public class MovieUtil {
                     runnable.run();
                     break;
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//                    e.printStackTrace();
+//                    System.out.println(e.getClass().getName() + ": " + e.getMessage());
                 }
             }
         }
         return mb;
     }
 
+    /**
+     *
+     * @param scan
+     * @return name
+     */
     private static String getName(Scanner scan) {
         System.out.println("Enter a movie name");
         String name = scan.nextLine().trim();
@@ -86,6 +88,11 @@ public class MovieUtil {
         return name;
     }
 
+    /**
+     *
+     * @param scan
+     * @return coordinates
+     */
     private static Coordinates getCoordinates(Scanner scan) {
         System.out.println("Enter a movie x coordinates:");
         Integer x = Integer.valueOf(scan.nextLine().trim());
@@ -95,6 +102,11 @@ public class MovieUtil {
         return new Coordinates(x, y);
     }
 
+    /**
+     *
+     * @param scan
+     * @return oscars count
+     */
     private static Integer getOscarsCount(Scanner scan) {
         System.out.println("Enter a movie oscars count ");
         Integer oscarsCount = Integer.valueOf(scan.nextLine().trim());
@@ -103,6 +115,11 @@ public class MovieUtil {
         return oscarsCount;
     }
 
+    /**
+     *
+     * @param scan
+     * @return golden palm count
+     */
     private static int getGoldenPalmCount(Scanner scan) {
         System.out.println("Enter a movie golden palm count ");
         Integer goldenPalmCount = Integer.valueOf(scan.nextLine().trim());
@@ -111,6 +128,11 @@ public class MovieUtil {
         return goldenPalmCount;
     }
 
+    /**
+     *
+     * @param scan
+     * @return movie length
+     */
     private static long getLength(Scanner scan) {
         System.out.println("Enter a movie length ");
         Long length = Long.valueOf(scan.nextLine().trim());
@@ -119,14 +141,25 @@ public class MovieUtil {
         return length;
     }
 
+    /**
+     *
+     * @param scan
+     * @return movie mpaa rating
+     */
     private static MpaaRating getMpaaRating(Scanner scan) {
         System.out.println("Enter a movie MpaaRating(" + UNITS + "):");
-        MpaaRating mpaaRating = MpaaRating.valueOf(scan.nextLine().trim());
+        String mpaaRating = scan.nextLine().trim();
         validateMovieParams(true);
 
-        return mpaaRating;
+        return mpaaRating.isEmpty() ? null : MpaaRating.valueOf(mpaaRating);
     }
 
+    /**
+     *
+     * @param scan
+     * @param movie
+     * @return screenwriter
+     */
     private static Person getScreenwriter(Scanner scan, Movie movie) {
         System.out.println("Movie screenwriter");
 

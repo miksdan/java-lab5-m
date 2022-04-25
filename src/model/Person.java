@@ -8,7 +8,7 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public class Person {
     private String name;        //Поле не может быть null, Строка не может быть пустой
-    private Integer weight;     //Поле может быть null, Значение поля должно быть больше 0
+    private Integer weight;     //Значение поля должно быть больше 0
     private Color eyeColor;     //Поле не может быть null
     private Color hairColor;    //Поле не может быть null
     private Country nationality;//Поле может быть null
@@ -46,11 +46,9 @@ public class Person {
         xsw.writeCharacters(name);
         xsw.writeEndElement();
 
-        if(nationality != null) {
-            xsw.writeStartElement("weight");
-            xsw.writeCharacters(String.valueOf(weight));
-            xsw.writeEndElement();
-        }
+        xsw.writeStartElement("weight");
+        xsw.writeCharacters(String.valueOf(weight));
+        xsw.writeEndElement();
 
         xsw.writeStartElement("eyeColor");
         xsw.writeCharacters(eyeColor.name());
@@ -63,6 +61,10 @@ public class Person {
         if(nationality != null) {
             xsw.writeStartElement("nationality");
             xsw.writeCharacters(nationality.name());
+            xsw.writeEndElement();
+        } else {
+            xsw.writeStartElement("nationality");
+            xsw.writeCharacters("");
             xsw.writeEndElement();
         }
     }

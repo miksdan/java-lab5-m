@@ -61,9 +61,9 @@ public class CommandExecutor {
      * @param scan console scanner
      */
     public static void startExecution(Scanner scan) {
-        while (true) {
+        do {
             executeCommand(scan);
-        }
+        } while (scan.hasNext());
     }
 
     /**
@@ -73,17 +73,6 @@ public class CommandExecutor {
     public static void executeScriptCommands(Scanner scan) {
         while (scan.hasNext()) {
             executeCommand(scan);
-        }
-    }
-
-    /**
-     * checks if additional parameters were on the same line with the command
-     * @param params should be empty
-     * @throws IllegalArgumentException for invalid command name
-     */
-    private static void isAdditionalParamsEmpty(String params) {
-        if(!params.isEmpty()) {
-            throw new IllegalArgumentException("This command does not need parameters");
         }
     }
 
@@ -105,25 +94,36 @@ public class CommandExecutor {
      * @throws IllegalArgumentException for invalid command name
      */
     private static void executeCommand(Scanner scan) {
-        String[] currentCommand = (scan.nextLine().trim() + " ").split(" ", 2);
-        try {
-            Optional.ofNullable(COMMAND_FUNCTION_MAP.get(currentCommand[0]))
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid command, type \"help\" for information about commands"))
-                    .accept(currentCommand[1].trim(), scan);
-        } catch (Exception e) {
+
+            String[] currentCommand = (scan.nextLine().trim() + " ").split(" ", 2);
+            try {
+                Optional.ofNullable(COMMAND_FUNCTION_MAP.get(currentCommand[0]))
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid command, type \"help\" for information about commands"))
+                        .accept(currentCommand[1].trim(), scan);
+            } catch (Exception e) {
 //            e.printStackTrace();
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
-        }
+                System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            }
     }
 
-
+    /**
+     * checks if additional parameters were on the same line with the command
+     * @param params should be empty
+     * @throws IllegalArgumentException for invalid command name
+     */
+    private static void isAdditionalParamsEmpty(String params) {
+        if(!params.isEmpty()) {
+            throw new IllegalArgumentException("This command doesn't need parameters");
+        }
+    }
     /**
      * help command
      * @param params command additional params (id, filename etc.)
      * @param scan helps to get the params of an object (for example for 'add' command)
      */
    private static void help(String params, Scanner scan) {
-        System.out.println(HELP_INFO);
+       isAdditionalParamsEmpty(params);
+       System.out.println(HELP_INFO);
     }
 
     /**
@@ -132,6 +132,7 @@ public class CommandExecutor {
      * @param scan helps to get the params of an object (for example for 'add' command)
      */
     private static void info(String params, Scanner scan) {
+        isAdditionalParamsEmpty(params);
         System.out.println("PriorityQueue\nDate: " + MovieStorage.getInitDate() + "\nCount of elements: " + MovieStorage.size());
     }
 
@@ -141,12 +142,12 @@ public class CommandExecutor {
      * @param scan helps to get the params of an object (for example for 'add' command)
      */
     private static void show(String params, Scanner scan) {
+        isAdditionalParamsEmpty(params);
         StringBuilder sb = new StringBuilder();
-        Iterator<Movie> iterator = MovieStorage.getIterator();
-        while (iterator.hasNext()) {
-            final Movie next = iterator.next();
-            String writer = next.getScreenwriter() != null ? next.getScreenwriter().toString() : "";
-            sb.append(next).append("\n").append(writer).append("\n");
+        List<Movie> movies = MovieStorage.getSortedListByOscarCount();
+        for (Movie movie : movies) {
+            String writer = movie.getScreenwriter() != null ? movie.getScreenwriter().toString() : "";
+            sb.append(movie).append("\n").append(writer).append("\n");
         }
         System.out.println(sb);
     }
@@ -157,6 +158,7 @@ public class CommandExecutor {
      * @param scan helps to get the params of an object (for example for 'add' command)
      */
     private static void add(String params, Scanner scan) {
+        isAdditionalParamsEmpty(params);
         MovieStorage.add(MovieUtil.createMovie(scan));
     }
 
@@ -216,6 +218,7 @@ public class CommandExecutor {
      * @param scan helps to get the params of an object (for example for 'add' command)
      */
     private static void head(String params, Scanner scan) {
+        isAdditionalParamsEmpty(params);
         System.out.println(MovieStorage.getIterator().next().toString());
     }
 
@@ -238,16 +241,17 @@ public class CommandExecutor {
     }
 
     /**
-     * command
+     * max_by_creationDate command
      * @param params command additional params (id, filename etc.)
      * @param scan helps to get the params of an object (for example for 'add' command)
      */
     private static void maxByCreationDate(String params, Scanner scan) {
+        isAdditionalParamsEmpty(params);
         System.out.println(MovieStorage.getMaxCreationDate());
     }
 
     /**
-     * command
+     * count_by_mpaa_rating command
      * @param params command additional params (id, filename etc.)
      * @param scan helps to get the params of an object (for example for 'add' command)
      */
@@ -256,7 +260,7 @@ public class CommandExecutor {
     }
 
     /**
-     * command
+     * filter_by_mpaa_rating command
      * @param params command additional params (id, filename etc.)
      * @param scan helps to get the params of an object (for example for 'add' command)
      */

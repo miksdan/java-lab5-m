@@ -4,7 +4,9 @@ import model.*;
 
 import javax.xml.stream.*;
 import javax.xml.stream.events.XMLEvent;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -18,6 +20,7 @@ public class FileAccessor {
      * defines the mapping of movie params its parsing
      */
     private static final Map<String, BiConsumer<MovieUtil.MovieBuilder, XMLEventReader>> MOVIE_PARAMS_PARSER;
+
     /**
      * defines the mapping of movie person its parsing
      */
@@ -26,7 +29,8 @@ public class FileAccessor {
     static {
         Map<String, BiConsumer<MovieUtil.MovieBuilder, XMLEventReader>> pppTemp = new HashMap<>();
 
-        pppTemp.put("movie", (mb, xmlEventReader) -> {});
+        pppTemp.put("movie", (mb, xmlEventReader) -> {
+        });
         pppTemp.put("id", (mb, xmlEventReader) -> mb.id = Integer.valueOf(xmlToStr(xmlEventReader)));
         pppTemp.put("name", (mb, xmlEventReader) -> mb.name = xmlToStr(xmlEventReader));
         pppTemp.put("coordinates", (mb, xmlEventReader) -> mb.coordinates = parseCoordinates(xmlEventReader));
@@ -34,7 +38,10 @@ public class FileAccessor {
         pppTemp.put("oscarsCount", (mb, xmlEventReader) -> mb.oscarsCount = Integer.valueOf(xmlToStr(xmlEventReader)));
         pppTemp.put("goldenPalmCount", (mb, xmlEventReader) -> mb.goldenPalmCount = Integer.valueOf(xmlToStr(xmlEventReader)));
         pppTemp.put("length", (mb, xmlEventReader) -> mb.length = Long.valueOf(xmlToStr(xmlEventReader)));
-        pppTemp.put("mpaaRating", (pb, xmlEventReader) -> pb. mpaaRating =  MpaaRating.valueOf(xmlToStr(xmlEventReader)));
+        pppTemp.put("mpaaRating", (pb, xmlEventReader) -> {
+            final String xmlToStr = xmlToStr(xmlEventReader);
+            pb.mpaaRating = xmlToStr != null ? MpaaRating.valueOf(xmlToStr) : null;
+        });
         pppTemp.put("screenwriter", (pb, xmlEventReader) -> pb.screenwriter = parsePerson(xmlEventReader));
 
         MOVIE_PARAMS_PARSER = Collections.unmodifiableMap(pppTemp);
@@ -45,14 +52,19 @@ public class FileAccessor {
         oppTemp.put("weight", (pb, xmlEventReader) -> pb.weight = Integer.valueOf(xmlToStr(xmlEventReader)));
         oppTemp.put("eyeColor", (ob, xmlEventReader) -> ob.eyeColor = Color.valueOf(xmlToStr(xmlEventReader)));
         oppTemp.put("hairColor", (ob, xmlEventReader) -> ob.hairColor = Color.valueOf(xmlToStr(xmlEventReader)));
-        oppTemp.put("nationality", (ob, xmlEventReader) -> ob.nationality = Country.valueOf(xmlToStr(xmlEventReader)));
+        oppTemp.put("nationality", (ob, xmlEventReader) -> {
+            final String xmlToStr = xmlToStr(xmlEventReader);
+            ob.nationality = xmlToStr != null ? Country.valueOf(xmlToStr) : null;
+        });
 
         PERSON_PARAMS_PARSER = Collections.unmodifiableMap(oppTemp);
     }
+
     private static String xmlFileName;
 
     /**
      * save xml fileName for reading and writing
+     *
      * @param xmlFileName path to xml file
      */
     public static void init(String xmlFileName) {
@@ -62,25 +74,36 @@ public class FileAccessor {
     /**
      * Load movie from xml
      */
-    public static void readFromXmlFile() throws FileNotFoundException {
+    public static void readFromXmlFile() {
         List<Movie> movies = new ArrayList<>();
         try (FileInputStream stream = new FileInputStream(xmlFileName)) {
             XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
             XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(stream);
 
             while (xmlEventReader.hasNext()) {
-                Movie mov = parseMovie(xmlEventReader);
-                if(mov != null) {
-                    movies.add(mov);
+                try {
+                    Movie mov = parseMovie(xmlEventReader);
+                    if (mov != null) {
+                        movies.add(mov);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println(e.getClass().getName() + ": " + e.getMessage());
                 }
+
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
         }
         movies.forEach(MovieStorage::add);
     }
 
+    /**
+     * movie parsing
+     * @param xmlEventReader
+     * @return movie
+     */
     private static Movie parseMovie(XMLEventReader xmlEventReader) {
         MovieUtil.MovieBuilder mb = new MovieUtil.MovieBuilder();
         try {
@@ -116,6 +139,11 @@ public class FileAccessor {
         return null;
     }
 
+    /**
+     * person parsing
+     * @param xmlEventReader
+     * @return person
+     */
     private static Person parsePerson(XMLEventReader xmlEventReader) {
         PersonUtil.PersonBuilder pb = new PersonUtil.PersonBuilder();
         try {
@@ -127,7 +155,7 @@ public class FileAccessor {
                     Optional.ofNullable(PERSON_PARAMS_PARSER.get(startElementStr)).ifPresent(cons -> cons.accept(pb, xmlEventReader));
                 }
                 if (xmlEvent.isEndElement()
-                && xmlEvent.asEndElement().getName().getLocalPart().equals("screenwriter")) {
+                        && xmlEvent.asEndElement().getName().getLocalPart().equals("screenwriter")) {
                     if (!UniqueValuesUtil.isPersonNameAvailable(pb.name)) {
                         throw new IllegalArgumentException("Illegal Argument");
                     }
@@ -145,6 +173,11 @@ public class FileAccessor {
         return null;
     }
 
+    /**
+     * coordinates parsing
+     * @param xmlEventReader
+     * @return coordinates
+     */
     private static Coordinates parseCoordinates(XMLEventReader xmlEventReader) {
         Integer x = 0;
         Long y = null;
@@ -174,6 +207,7 @@ public class FileAccessor {
 
     /**
      * convert XML characters to string
+     *
      * @param xmlEventReader iterator over XML file
      * @return string representation of XML characters
      */
@@ -183,8 +217,9 @@ public class FileAccessor {
             xmlEvent = xmlEventReader.nextEvent();
             return xmlEvent.asCharacters().getData();
         } catch (XMLStreamException e) {
+            System.out.println("Cannot parse " + xmlEvent);
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
-            System.out.println(xmlEvent);
+        } catch (ClassCastException ignore) {
         }
         return null;
     }
@@ -199,11 +234,11 @@ public class FileAccessor {
             xsw = xof.createXMLStreamWriter(stream);
             xsw.writeStartDocument();
             XMLStreamWriter finalXsw = xsw;
-            Iterator<Movie> iterator = MovieStorage.getIterator();
             xsw.writeStartElement("movies");
-            while (iterator.hasNext()) {
+            List<Movie> movies = MovieStorage.getSortedListByOscarCount();
+            for (Movie movie : movies) {
                 xsw.writeStartElement("movie");
-                iterator.next().convertMovieToXml(finalXsw);
+                movie.convertMovieToXml(finalXsw);
                 xsw.writeEndElement();
             }
             xsw.writeEndDocument();
@@ -211,13 +246,14 @@ public class FileAccessor {
             xsw.flush();
             xsw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
         }
     }
 
     /**
      * starts execution of a script in a file
+     *
      * @param scriptFile path to script file
      */
     public static void readScript(String scriptFile) {
