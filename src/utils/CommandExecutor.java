@@ -62,7 +62,12 @@ public class CommandExecutor {
      */
     public static void startExecution(Scanner scan) {
         do {
-            executeCommand(scan);
+            if (scan.hasNext()) {
+                executeCommand(scan);
+            } else {
+                System.out.println("The program terminated.");
+                System.exit(0);
+            }
         } while (scan.hasNext());
     }
 
@@ -102,7 +107,7 @@ public class CommandExecutor {
                         .accept(currentCommand[1].trim(), scan);
             } catch (Exception e) {
 //            e.printStackTrace();
-                System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("The error of the command" + ": " + e.getMessage());
             }
     }
 
@@ -114,6 +119,7 @@ public class CommandExecutor {
     private static void isAdditionalParamsEmpty(String params) {
         if(!params.isEmpty()) {
             throw new IllegalArgumentException("This command doesn't need parameters");
+//            System.out.println("This command doesn't need parameters");
         }
     }
     /**

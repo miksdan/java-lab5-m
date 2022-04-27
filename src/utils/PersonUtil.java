@@ -70,13 +70,21 @@ public class PersonUtil {
                 () -> pb.nationality = getNationality(scan)};
 
         for (Runnable runnable : paramFillingRunnable) {
+            int counter = 0;
+            int maxError = 5;
             while (true) {
                 try {
                     runnable.run();
                     break;
                 } catch (Exception e) {
 //                    e.printStackTrace();
-                    System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//                    System.out.println(e.getClass().getName() + ": " + e.getMessage());
+                    System.out.println("Not valid parameter." + " Attempts left: " + (maxError - counter));
+                    counter++;
+                    if (!((maxError - counter) >= 0)) {
+                        System.out.println("ooops... something went wrong");
+                        System.exit(0);
+                    }
                 }
             }
         }
@@ -89,7 +97,7 @@ public class PersonUtil {
      * @return true if person is needed
      */
     private static boolean aimValidation(Scanner scan) {
-        System.out.println("Add a person [Y/N]: ");
+        System.out.println("Add a person \n['Y' to accept / Any symbol for cancellation] ");
         String answer = scan.nextLine().trim();
 
         return answer.equals("Y");
@@ -102,6 +110,7 @@ public class PersonUtil {
      */
     private static String getName(Scanner scan) {
         System.out.println("Enter a person name: ");
+        System.out.println("The field cannot be empty.");
         String name = scan.nextLine().trim();
         validatePersonParams(name != null && !name.isEmpty());
 
@@ -115,6 +124,7 @@ public class PersonUtil {
      */
     private static Integer getWeight(Scanner scan) {
         System.out.println("Enter a person weight: ");
+        System.out.println("The field must be more than 0");
         Integer weight = Integer.valueOf(scan.nextLine().trim());
         validatePersonParams(weight == null || weight > 0);
 
@@ -128,6 +138,7 @@ public class PersonUtil {
      */
     private static Color getEyeColor(Scanner scan) {
         System.out.println("Enter a person eye color: " + PERSON_COLOR);
+        System.out.println("The field cannot be empty.");
         String eyeColorStr = scan.nextLine().trim();
         validatePersonParams(!eyeColorStr.equals(null));
 
@@ -141,6 +152,7 @@ public class PersonUtil {
      */
     private static Color getHairColor(Scanner scan) {
         System.out.println("Enter a person hair color: " + PERSON_COLOR);
+        System.out.println("The field cannot be empty.");
         String hairColorStr = scan.nextLine().trim();
         validatePersonParams(!hairColorStr.equals(null));
 
@@ -154,6 +166,7 @@ public class PersonUtil {
      */
     private static Country getNationality(Scanner scan) {
         System.out.println("Enter a person nationality: " + PERSON_COUNTRIES);
+        System.out.println("The field can be empty. To enter NULL, use an empty line and Enter");
         String nationality = scan.nextLine().trim();
 
         return nationality.isEmpty() ? null : Country.valueOf(nationality);
@@ -167,6 +180,7 @@ public class PersonUtil {
     private static void validatePersonParams(boolean isValid) {
         if (!isValid) {
             throw new IllegalArgumentException("Illegal argument value for person");
+//            System.out.println("Illegal argument value for person");
         }
     }
 }

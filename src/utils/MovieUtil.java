@@ -62,6 +62,8 @@ public class MovieUtil {
                 () -> mb.screenwriter = getScreenwriter(scan, movie)};
 
         for (Runnable runnable : paramFillingRunnable) {
+            int counter = 0;
+            int maxError = 5;
             while (true) {
                 try {
                     runnable.run();
@@ -69,6 +71,12 @@ public class MovieUtil {
                 } catch (Exception e) {
 //                    e.printStackTrace();
 //                    System.out.println(e.getClass().getName() + ": " + e.getMessage());
+                    System.out.println("Not valid parameter." + " Attempts left: " + (maxError - counter));
+                    counter++;
+                    if (!((maxError - counter) >= 0)) {
+                        System.out.println("ooops... something went wrong");
+                        System.exit(0);
+                    }
                 }
             }
         }
@@ -82,6 +90,7 @@ public class MovieUtil {
      */
     private static String getName(Scanner scan) {
         System.out.println("Enter a movie name");
+        System.out.println("The field cannot be empty.");
         String name = scan.nextLine().trim();
         validateMovieParams(name != null && !name.isEmpty());
 
@@ -95,8 +104,10 @@ public class MovieUtil {
      */
     private static Coordinates getCoordinates(Scanner scan) {
         System.out.println("Enter a movie x coordinates:");
+        System.out.println("The field must be more than -162");
         Integer x = Integer.valueOf(scan.nextLine().trim());
         System.out.println("Enter a movie y coordinates:");
+        System.out.println("The field must be no more than 232");
         Long y = Long.valueOf(scan.nextLine().trim());
 
         return new Coordinates(x, y);
@@ -109,6 +120,7 @@ public class MovieUtil {
      */
     private static Integer getOscarsCount(Scanner scan) {
         System.out.println("Enter a movie oscars count ");
+        System.out.println("The field must be more than 0");
         Integer oscarsCount = Integer.valueOf(scan.nextLine().trim());
         validateMovieParams(oscarsCount > 0);
 
@@ -122,6 +134,7 @@ public class MovieUtil {
      */
     private static int getGoldenPalmCount(Scanner scan) {
         System.out.println("Enter a movie golden palm count ");
+        System.out.println("The field must be more than 0");
         Integer goldenPalmCount = Integer.valueOf(scan.nextLine().trim());
         validateMovieParams(goldenPalmCount > 0);
 
@@ -135,6 +148,7 @@ public class MovieUtil {
      */
     private static long getLength(Scanner scan) {
         System.out.println("Enter a movie length ");
+        System.out.println("The field must be more than 0");
         Long length = Long.valueOf(scan.nextLine().trim());
         validateMovieParams(length > 0);
 
@@ -147,7 +161,8 @@ public class MovieUtil {
      * @return movie mpaa rating
      */
     private static MpaaRating getMpaaRating(Scanner scan) {
-        System.out.println("Enter a movie MpaaRating(" + UNITS + "):");
+        System.out.println("Enter a movie MpaaRating(" + UNITS + ", null):");
+        System.out.println("The field can be empty. To enter NULL, use an empty line and Enter");
         String mpaaRating = scan.nextLine().trim();
         validateMovieParams(true);
 
@@ -162,6 +177,7 @@ public class MovieUtil {
      */
     private static Person getScreenwriter(Scanner scan, Movie movie) {
         System.out.println("Movie screenwriter");
+        System.out.println("The field can be empty. To enter NULL, use an empty line and Enter");
 
         return movie != null ? PersonUtil.updatePerson(scan, movie.getScreenwriter())
                 : PersonUtil.createPerson(scan);
@@ -175,6 +191,7 @@ public class MovieUtil {
     private static void validateMovieParams(boolean isValid) {
         if (!isValid) {
             throw new IllegalArgumentException("Illegal argument value for movie");
+//            System.out.println("Illegal argument value for movie");
         }
     }
 }

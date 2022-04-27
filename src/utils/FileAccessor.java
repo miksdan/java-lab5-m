@@ -87,14 +87,16 @@ public class FileAccessor {
                         movies.add(mov);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//                    e.printStackTrace();
+//                    System.out.println(e.getClass().getName() + ": " + e.getMessage());
+                    System.out.println("Reading error from XML file, element missed" + ": " + e.getMessage());
                 }
 
             }
         } catch (Exception e) {
 //            e.printStackTrace();
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("Reading error from XML file, element missed" + ": " + e.getMessage());
         }
         movies.forEach(MovieStorage::add);
     }
@@ -119,7 +121,8 @@ public class FileAccessor {
                 }
                 if (xmlEvent.isEndElement() && xmlEvent.asEndElement().getName().getLocalPart().equals("movie")) {
                     if (!UniqueValuesUtil.isMovieIdUnique(mb.id)) {
-                        throw new IllegalArgumentException("Illegal Argument");
+//                        throw new IllegalArgumentException("Illegal Argument");
+                        System.out.println("Illegal argument is found in the movie");
                     }
                     return new Movie(mb.id,
                             mb.name,
@@ -134,7 +137,8 @@ public class FileAccessor {
             }
         } catch (XMLStreamException e) {
 //            e.printStackTrace();
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("Illegal argument is found in the movie" + ": " + e.getMessage());
         }
         return null;
     }
@@ -157,7 +161,8 @@ public class FileAccessor {
                 if (xmlEvent.isEndElement()
                         && xmlEvent.asEndElement().getName().getLocalPart().equals("screenwriter")) {
                     if (!UniqueValuesUtil.isPersonNameAvailable(pb.name)) {
-                        throw new IllegalArgumentException("Illegal Argument");
+//                        throw new IllegalArgumentException("Illegal Argument");
+                        System.out.println("Illegal argument is found in the person");
                     }
                     return new Person(pb.name,
                             pb.weight,
@@ -168,7 +173,8 @@ public class FileAccessor {
             }
         } catch (XMLStreamException e) {
 //            e.printStackTrace();
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("Illegal argument is found in the person" + ": " + e.getMessage());
         }
         return null;
     }
@@ -200,7 +206,8 @@ public class FileAccessor {
             }
         } catch (XMLStreamException e) {
 //            e.printStackTrace();
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("Illegal argument is found in coordinates" + ": " + e.getMessage());
         }
         return null;
     }
@@ -218,7 +225,7 @@ public class FileAccessor {
             return xmlEvent.asCharacters().getData();
         } catch (XMLStreamException e) {
             System.out.println("Cannot parse " + xmlEvent);
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//            System.out.println(e.getClass().getName() + ": " + e.getMessage());
         } catch (ClassCastException ignore) {
         }
         return null;
@@ -247,7 +254,8 @@ public class FileAccessor {
             xsw.close();
         } catch (Exception e) {
 //            e.printStackTrace();
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("File write error" + ": " + e.getMessage());
         }
     }
 
@@ -264,7 +272,8 @@ public class FileAccessor {
             UniqueValuesUtil.removeScript(scriptFile);
         } catch (Exception e) {
 //            e.printStackTrace();
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+//            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("Script reading error" + ": " + e.getMessage());
         }
     }
 }

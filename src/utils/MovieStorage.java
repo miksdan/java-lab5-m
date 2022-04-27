@@ -107,8 +107,10 @@ public class MovieStorage {
         if (movieMaxDate != null) {
             return movieMaxDate;
         } else {
-            throw new RuntimeException("No such element in collection");
+//            throw new RuntimeException("No such element in collection");
+            System.out.println("No such element in collection.");
         }
+        return movieMaxDate;
     }
 
     public static int countByMpaaRating(MpaaRating rating) {
