@@ -82,7 +82,7 @@ public class PersonUtil {
                     System.out.println("Not valid parameter." + " Attempts left: " + (maxError - counter));
                     counter++;
                     if (!((maxError - counter) >= 0)) {
-                        System.out.println("ooops... something went wrong");
+                        System.out.println("\nooops... something went wrong");
                         System.exit(0);
                     }
                 }

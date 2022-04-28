@@ -6,10 +6,10 @@ import java.time.LocalDate;
 
 public class Movie implements Comparable<Movie> {   //implements Comparable<Movie>
     private int id;                                 //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    private String name;                            //Поле не может быть null, Строка не может быть пустой
+    private String name;                            //Поле не может быть null
     private Coordinates coordinates;                //Поле не может быть null
-    private LocalDate creationDate;                 //Поле не может быть null, Значение этого поля должно генерироваться автоматически
-    private Integer oscarsCount;                    //Значение поля должно быть больше 0, Поле может быть null
+    private LocalDate creationDate;                 //Поле не может быть null
+    private Integer oscarsCount;                    //Значение поля должно быть больше 0
     private int goldenPalmCount;                    //Значение поля должно быть больше 0
     private long length;                            //Значение поля должно быть больше 0
     private MpaaRating mpaaRating;                  //Поле может быть null
@@ -142,7 +142,7 @@ public class Movie implements Comparable<Movie> {   //implements Comparable<Movi
                 && length > 0) {
             return;
         }
-        throw new IllegalArgumentException("Illegal argument value for product");
+        throw new IllegalArgumentException("Illegal argument value for movie - " + "id: " + id + ", name: " + name + ", coordinates: " + coordinates + ", creation date: " + creationDate);
     }
 
     public void setId(int id) {

@@ -96,7 +96,7 @@ public class FileAccessor {
         } catch (Exception e) {
 //            e.printStackTrace();
 //            System.out.println(e.getClass().getName() + ": " + e.getMessage());
-            System.out.println("Reading error from XML file, element missed" + ": " + e.getMessage());
+            System.out.println("Reading error from XML file" + ": " + e.getMessage());
         }
         movies.forEach(MovieStorage::add);
     }

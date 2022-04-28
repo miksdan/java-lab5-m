@@ -95,7 +95,7 @@ public class Person {
                 && hairColor != null) {
             return;
         }
-        throw new IllegalArgumentException("Illegal argument value for person");
+        throw new IllegalArgumentException("Illegal argument value for person - " + "name: " + name + ", weight: " + weight);
     }
 
     /**
