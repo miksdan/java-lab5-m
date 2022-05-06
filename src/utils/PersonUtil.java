@@ -82,7 +82,10 @@ public class PersonUtil {
                     System.out.println("Not valid parameter." + " Attempts left: " + (maxError - counter));
                     counter++;
                     if (!((maxError - counter) >= 0)) {
-                        System.out.println("\nooops... something went wrong");
+                        System.out.println("\nooops... something went wrong.");
+                        FileAccessor.writeXmlFile();
+                        System.out.println("Collection saved.");
+                        System.out.println("The program terminated.");
                         System.exit(0);
                     }
                 }

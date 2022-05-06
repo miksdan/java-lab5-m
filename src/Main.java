@@ -92,6 +92,7 @@ public class Main {
                     }
                     if (userInput.equals("Y")) {
                         System.out.println("Enter free file name.");
+                        System.out.println("The file name is required to contain only letters and (or) numbers.");
                         if (sc.hasNext()) {
                             userInput = sc.nextLine();
 
@@ -206,21 +207,23 @@ public class Main {
                     System.out.println("Want to use default file structure? \n['Y' to accept / Any symbol for cancellation]");
                     if (sc.hasNext()) {
                         userInput = sc.nextLine();
-
-                        String regex = "^([a-zA-Z0-9])+$";
-
-                        if (!Pattern.matches(regex, userInput)) {
-                            System.out.println("\nThe file name should contain only letters and (or) numbers.");
-                            continue;
-                        }
                     } else {
                         System.out.println("The program terminated.");
                         System.exit(0);
                     }
                     if (userInput.equals("Y")) {
                         System.out.println("Enter free file name.");
+                        System.out.println("The file name is required to contain only letters and (or) numbers.");
+
                         if (sc.hasNext()) {
                             userInput = sc.nextLine();
+
+                            String regex = "^([a-zA-Z0-9])+$";
+
+                            if (!Pattern.matches(regex, userInput)) {
+                                System.out.println("\nThe file name should contain only letters and (or) numbers.");
+                                continue;
+                            }
                         } else {
                             System.out.println("The program terminated.");
                             System.exit(0);

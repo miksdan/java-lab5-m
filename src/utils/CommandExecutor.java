@@ -54,6 +54,13 @@ public class CommandExecutor {
         COMMAND_FUNCTION_MAP = Collections.unmodifiableMap(cfmTemp);
     }
 
+    /*
+   Additional task. delete later!
+    */
+    public static final Map<String, BiConsumer<String, Scanner>> returnMap() {
+        return COMMAND_FUNCTION_MAP;
+    }
+
     private static boolean isExitCommand = false;
 
     /**
