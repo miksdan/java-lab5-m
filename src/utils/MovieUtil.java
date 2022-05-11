@@ -101,7 +101,7 @@ public class MovieUtil {
     }
 
     /**
-     *
+     * obtaining coordinates
      * @param scan
      * @return coordinates
      */
@@ -117,7 +117,7 @@ public class MovieUtil {
     }
 
     /**
-     *
+     * obtaining oscars count
      * @param scan
      * @return oscars count
      */
@@ -131,7 +131,7 @@ public class MovieUtil {
     }
 
     /**
-     *
+     * obtaining golden palm count
      * @param scan
      * @return golden palm count
      */
@@ -145,7 +145,7 @@ public class MovieUtil {
     }
 
     /**
-     *
+     * obtaining length
      * @param scan
      * @return movie length
      */
@@ -159,7 +159,7 @@ public class MovieUtil {
     }
 
     /**
-     *
+     * obtaining Mpaa Rating
      * @param scan
      * @return movie mpaa rating
      */
@@ -173,7 +173,7 @@ public class MovieUtil {
     }
 
     /**
-     *
+     * obtaining Screenwriter
      * @param scan
      * @param movie
      * @return screenwriter

@@ -107,7 +107,7 @@ public class PersonUtil {
     }
 
     /**
-     *
+     * obtaining name
      * @param scan
      * @return person's name
      */
@@ -121,7 +121,7 @@ public class PersonUtil {
     }
 
     /**
-     *
+     * obtaining weight
      * @param scan
      * @return person's weight
      */
@@ -135,7 +135,7 @@ public class PersonUtil {
     }
 
     /**
-     *
+     * obtaining person's eye color
      * @param scan
      * @return person's eye color
      */
@@ -149,7 +149,7 @@ public class PersonUtil {
     }
 
     /**
-     *
+     * obtaining person's hair color
      * @param scan
      * @return person's hair color
      */
@@ -163,7 +163,7 @@ public class PersonUtil {
     }
 
     /**
-     *
+     * obtaining person's nationality
      * @param scan
      * @return person's nationality
      */
