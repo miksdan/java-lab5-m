@@ -116,8 +116,12 @@ public class MovieStorage {
     public static int countByMpaaRating(MpaaRating rating) {
         int count = 0;
         for (Movie movie : STORAGE) {
-            if (movie.getMpaaRating().equals(rating)) {
-                count++;
+            try {
+                if (movie.getMpaaRating().equals(rating)) {
+                    count++;
+                }
+            } catch (Exception e) {
+                System.out.println("'" + movie.getName() + "' is not counted, since the MPAA Rating field is empty.");
             }
         }
         return count;
@@ -126,8 +130,12 @@ public class MovieStorage {
     public static List<Movie> filterByMpaaRating(MpaaRating rating) {
         List<Movie> movies = new ArrayList<>();
         for (Movie movie : STORAGE) {
-            if (movie.getMpaaRating().equals(rating)) {
-                movies.add(movie);
+            try {
+                if (movie.getMpaaRating().equals(rating)) {
+                    movies.add(movie);
+                }
+            } catch (Exception e) {
+//                e.printStackTrace();
             }
         }
         return movies;

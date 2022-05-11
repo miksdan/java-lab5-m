@@ -173,6 +173,7 @@ public class CommandExecutor {
     private static void add(String params, Scanner scan) {
         isAdditionalParamsEmpty(params);
         MovieStorage.add(MovieUtil.createMovie(scan));
+        System.out.println("The film is added to the collection!");
     }
 
     /**
@@ -184,6 +185,7 @@ public class CommandExecutor {
         int id = Integer.parseInt(params);
         Movie movie = MovieUtil.createMovie(scan);
         MovieStorage.update(id, movie);
+        System.out.println("The fields of the film updated!");
     }
 
     /**
@@ -193,6 +195,7 @@ public class CommandExecutor {
      */
     private static void removeById(String params, Scanner scan) {
         MovieStorage.removeById(Integer.parseInt(params));
+        System.out.println("Removed by ID!");
     }
 
     /**
@@ -203,6 +206,7 @@ public class CommandExecutor {
     private static void clear(String params, Scanner scan) {
         isAdditionalParamsEmpty(params);
         MovieStorage.clear();
+        System.out.println("The collection is cleaned of elements!");
     }
 
     /**
@@ -213,6 +217,7 @@ public class CommandExecutor {
     private static void save(String params, Scanner scan) {
         isAdditionalParamsEmpty(params);
         FileAccessor.writeXmlFile();
+        System.out.println("The collection is saved!");
     }
 
     /**
@@ -222,6 +227,7 @@ public class CommandExecutor {
      */
     private static void exit(String params, Scanner scan) {
         isAdditionalParamsEmpty(params);
+        System.out.println("The program terminated.");
         System.exit(0);
     }
 
@@ -242,6 +248,7 @@ public class CommandExecutor {
      */
     private static void removeGreater(String params, Scanner scan) {
         MovieStorage.removeGreater(MovieUtil.createMovie(scan));
+        System.out.println("Greater elements are removed!");
     }
 
     /**
@@ -251,6 +258,7 @@ public class CommandExecutor {
      */
     private static void removeLower(String params, Scanner scan) {
         MovieStorage.removeLower(MovieUtil.createMovie(scan));
+        System.out.println("Lower elements are removed!");
     }
 
     /**
@@ -269,7 +277,7 @@ public class CommandExecutor {
      * @param scan helps to get the params of an object (for example for 'add' command)
      */
     private static void countByMpaaRating(String params, Scanner scan) {
-        System.out.println(MovieStorage.countByMpaaRating(MpaaRating.valueOf(params)));
+        System.out.println("With the rating '" + params + "' exists " + MovieStorage.countByMpaaRating(MpaaRating.valueOf(params)) + " element(s).");
     }
 
     /**

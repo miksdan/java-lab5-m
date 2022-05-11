@@ -29,8 +29,7 @@ public class FileAccessor {
     static {
         Map<String, BiConsumer<MovieUtil.MovieBuilder, XMLEventReader>> pppTemp = new HashMap<>();
 
-        pppTemp.put("movie", (mb, xmlEventReader) -> {
-        });
+        pppTemp.put("movie", (mb, xmlEventReader) -> {});
         pppTemp.put("id", (mb, xmlEventReader) -> mb.id = Integer.valueOf(xmlToStr(xmlEventReader)));
         pppTemp.put("name", (mb, xmlEventReader) -> mb.name = xmlToStr(xmlEventReader));
         pppTemp.put("coordinates", (mb, xmlEventReader) -> mb.coordinates = parseCoordinates(xmlEventReader));
