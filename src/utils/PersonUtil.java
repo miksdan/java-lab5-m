@@ -43,6 +43,12 @@ public class PersonUtil {
                 pb.nationality);
     }
 
+    /**
+     * updating person
+     * @param scan
+     * @param person
+     * @return person
+     */
     public static Person updatePerson(Scanner scan, Person person) {
         PersonBuilder pb = readPerson(scan);
         if (pb == null) {
@@ -58,6 +64,10 @@ public class PersonUtil {
         return person;
     }
 
+    /**
+     * simplifies person creating
+     * @param scan
+     */
     public static PersonBuilder readPerson(Scanner scan) {
         if(!aimValidation(scan)) {
             return null;

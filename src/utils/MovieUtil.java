@@ -87,7 +87,7 @@ public class MovieUtil {
     }
 
     /**
-     *
+     * obtaining name
      * @param scan
      * @return name
      */

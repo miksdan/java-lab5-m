@@ -18,6 +18,10 @@ public class MovieStorage {
         return initDate;
     }
 
+    /**
+     * add movie
+     * @param movie
+     */
     public static void add(Movie movie) {
         movie.setId(generateMovieId());
         STORAGE.add(movie);
@@ -26,14 +30,25 @@ public class MovieStorage {
         }
     }
 
+    /**
+     * generate movie id
+     * @return currentId
+     */
     public static int generateMovieId() {
         return ++currentId;
     }
 
+    /**
+     * cleans the collection
+     */
     public static void clear() {
         STORAGE.clear();
     }
 
+    /**
+     * obtaining storage iterator
+     * @return Storage.iterator()
+     */
     public static Iterator<Movie> getIterator() {
         return STORAGE.iterator();
     }
@@ -42,6 +57,11 @@ public class MovieStorage {
         return STORAGE.size();
     }
 
+    /**
+     * updates movie
+     * @param id
+     * @param movie
+     */
     public static void update(int id, Movie movie) {
         Iterator<Movie> iterator = STORAGE.iterator();
         while (iterator.hasNext()) {
@@ -60,6 +80,10 @@ public class MovieStorage {
         }
     }
 
+    /**
+     * remove movie by id
+     * @param id
+     */
     public static void removeById(int id) {
         Iterator<Movie> iterator = STORAGE.iterator();
         while (iterator.hasNext()) {
@@ -71,6 +95,10 @@ public class MovieStorage {
         }
     }
 
+    /**
+     * remove greater movie
+     * @param movie
+     */
     public static void removeGreater(Movie movie) {
         Iterator<Movie> iterator = STORAGE.iterator();
         List<Movie> moviesToRemove = new ArrayList<>();
@@ -83,6 +111,10 @@ public class MovieStorage {
         moviesToRemove.forEach(STORAGE::remove);
     }
 
+    /**
+     * remove lower movie
+     * @param movie
+     */
     public static void removeLower(Movie movie) {
         Iterator<Movie> iterator = STORAGE.iterator();
         List<Movie> moviesToRemove = new ArrayList<>();
@@ -95,6 +127,10 @@ public class MovieStorage {
         moviesToRemove.forEach(STORAGE::remove);
     }
 
+    /**
+     * obtaining movie with max date
+     * @return movie with max date
+     */
     public static Movie getMaxCreationDate() {
         LocalDate max = LocalDate.MIN;
         Movie movieMaxDate = null;
@@ -113,6 +149,11 @@ public class MovieStorage {
         return movieMaxDate;
     }
 
+    /**
+     * count by Mpaa Rating
+     * @param rating
+     * @return count
+     */
     public static int countByMpaaRating(MpaaRating rating) {
         int count = 0;
         for (Movie movie : STORAGE) {
@@ -127,6 +168,11 @@ public class MovieStorage {
         return count;
     }
 
+    /**
+     * obtaining filter by Mpaa Rating
+     * @param rating
+     * @return movies
+     */
     public static List<Movie> filterByMpaaRating(MpaaRating rating) {
         List<Movie> movies = new ArrayList<>();
         for (Movie movie : STORAGE) {
@@ -145,6 +191,10 @@ public class MovieStorage {
         return new ArrayList<>(STORAGE);
     }
 
+    /**
+     * obtaining sorted list
+     * @return movies
+     */
     public static List<Movie> getSortedListByOscarCount() {
         List<Movie> movies = getStorageAsList();
         movies.sort(Movie::compareTo);
